@@ -13,37 +13,37 @@ const Detail = () => {
     fetch(url)
       .then((res) => res.json())
       .then((data) => setDentista(data));
-  }, [params.id]);
+  }, [params.id, url]);
 
   return (
     <div className="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th className="table-title" colspan="2">
-            Detalles dentista {dentista.id}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th>Nombre:</th>
-          <td>{dentista.name}</td>
-        </tr>
-        <tr>
-          <th>Email:</th>
-          <td>{dentista.email}</td>
-        </tr>
-        <tr>
-          <th>Teléfono:</th>
-          <td>{dentista.phone}</td>
-        </tr>
-        <tr>
-          <th>Website:</th>
-          <td>{dentista.website}</td>
-        </tr>
-      </tbody>
-    </table>
+      <table>
+        <thead>
+          <tr>
+            <th className="table-title" colSpan="2">
+              Detalles dentista {dentista.id}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Nombre:</th>
+            <td>{dentista.name}</td>
+          </tr>
+          <tr>
+            <th>Email:</th>
+            <td>{dentista.email}</td>
+          </tr>
+          <tr>
+            <th>Teléfono:</th>
+            <td>{dentista.phone}</td>
+          </tr>
+          <tr>
+            <th>Website:</th>
+            <td>{dentista.website}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 };

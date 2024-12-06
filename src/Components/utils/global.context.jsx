@@ -1,37 +1,39 @@
-import { createContext, useContext, useState, useEffect,  } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+import PropTypes from "prop-types";
+
 export const ContextGlobal = createContext();
 
 const changeTheme = () => {
-  const body = document.querySelector("body")
-      body.classList.toggle("dark")
-}
+  const body = document.querySelector("body");
+  body.classList.toggle("dark");
+};
 
-// eslint-disable-next-line react/prop-types
-export const ContextProvider = ({ children }) => {
+const ContextProvider = ({ children }) => {
   const [datos, setDatos] = useState([]);
   const url = "https://jsonplaceholder.typicode.com/users/";
-
 
   useEffect(() => {
     fetch(url)
       .then((response) => response.json())
       .then((data) => setDatos(data))
-      .catch((error) => console.error(error))
+      .catch((error) => console.error(error));
   }, []);
 
-  
-
-
   return (
-    <ContextGlobal.Provider value={{ datos,changeTheme }}>
+    <ContextGlobal.Provider value={{ datos, changeTheme }}>
       {children}
     </ContextGlobal.Provider>
   );
 };
 
+ContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
+const useContextGlobal = () => useContext(ContextGlobal);
 
-export const useContextGlobal = () => useContext(ContextGlobal)
+export { ContextProvider, useContextGlobal };
 
+//    export default ContextProvider;
 
-export default ContextProvider;
+//  export const useContextGlobal = () =>  useContext(ContextGlobal);

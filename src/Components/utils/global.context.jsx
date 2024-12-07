@@ -5,23 +5,37 @@ export const ContextGlobal = createContext();
 
 const changeTheme = () => {
   const body = document.querySelector("body");
-  body.classList.toggle("dark");
+  if (body) {
+    const isDark = body.classList.contains("dark");
+    body.classList.toggle("dark", !isDark);
+  }
 };
 
 const ContextProvider = ({ children }) => {
   const [datos, setDatos] = useState([]);
+  const [fetchError, setFetchError] = useState(null);
   const url = "https://jsonplaceholder.typicode.com/users/";
 
   useEffect(() => {
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => setDatos(data))
-      .catch((error) => console.error(error));
-  }, []);
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error("Error fetching data");
+        }
+        const data = await response.json();
+        setDatos(data);
+        setFetchError(null);
+      } catch (err) {
+        setFetchError(err.message);
+      }
+    };
+    fetchData();
+  }, [url]);
 
   return (
     <ContextGlobal.Provider value={{ datos, changeTheme }}>
-      {children}
+      {fetchError ? <div>Error: {fetchError}</div> : children}
     </ContextGlobal.Provider>
   );
 };
@@ -33,7 +47,3 @@ ContextProvider.propTypes = {
 const useContextGlobal = () => useContext(ContextGlobal);
 
 export { ContextProvider, useContextGlobal };
-
-//    export default ContextProvider;
-
-//  export const useContextGlobal = () =>  useContext(ContextGlobal);

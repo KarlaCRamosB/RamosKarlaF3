@@ -52,7 +52,7 @@ const Card = ({ name, username, id, email }) => {
       </div>
 
       {/* Botón para agregar/quitar de favoritos */}
-      <button onClick={addFav} className="favButton">
+      <button onClick={addFav} className="favButton">⭐
         Add Favorite
       </button>
     </div>
